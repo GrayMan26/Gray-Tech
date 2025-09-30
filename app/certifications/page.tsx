@@ -8,6 +8,7 @@ import { FileText, ExternalLink, X, ChevronLeft, ChevronRight, Download } from "
 export default function Certifications() {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [touchStartX, setTouchStartX] = useState(0);
+  const fallbackImage = "/certifications/images/fallback-cert.png"; // add a generic fallback image here
 
   const certs = [
     {
@@ -70,42 +71,75 @@ export default function Certifications() {
             </div>
 
             <div className="grid md:grid-cols-2 gap-6">
-              {certs.map((cert, index) => (
-                <div key={cert.title} className="rounded-2xl border border-gray-800 bg-[#1e1e1e] p-6 shadow-sm">
-                  <h2 className="text-2xl font-semibold text-foreground mb-2">{cert.title}</h2>
-                  <p className="text-sm text-gray-400 mb-4">Completed {cert.date}</p>
+              {certs.map((cert, index) => {
+                const [imgSrc, setImgSrc] = useState(cert.image);
+                const [pdfAvailable, setPdfAvailable] = useState(true);
 
-                  {/* Clickable certificate image */}
-                  <div
-                    className="relative w-full h-auto mb-6 cursor-pointer rounded-lg border border-gray-800 overflow-hidden bg-black/40"
-                    onClick={() => setLightboxIndex(index)}
-                  >
-                    <img
-                      src={cert.image}
-                      alt={`${cert.title} Certificate`}
-                      className="w-full h-auto hover:opacity-90 transition-opacity"
-                    />
-                  </div>
+                const checkPdfExists = async () => {
+                  try {
+                    const res = await fetch(cert.downloadLink, { method: "HEAD" });
+                    if (!res.ok) setPdfAvailable(false);
+                  } catch {
+                    setPdfAvailable(false);
+                  }
+                };
 
-                  <div className="flex flex-wrap gap-3">
-                    <a
-                      href={cert.viewLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="btn inline-flex items-center gap-2 rounded-lg px-4 py-2 font-medium transition bg-accent text-white hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
+                // Run the PDF existence check
+                useEffect(() => {
+                  if (typeof window !== "undefined") checkPdfExists();
+                }, []);
+
+                return (
+                  <div key={cert.title} className="rounded-2xl border border-gray-800 bg-[#1e1e1e] p-6 shadow-sm">
+                    <h2 className="text-2xl font-semibold text-foreground mb-2">{cert.title}</h2>
+                    <p className="text-sm text-gray-400 mb-4">Completed {cert.date}</p>
+
+                    {/* Clickable certificate image with fallback */}
+                    <div
+                      className="relative w-full h-auto mb-6 cursor-pointer rounded-lg border border-gray-800 overflow-hidden bg-black/40"
+                      onClick={() => setLightboxIndex(index)}
                     >
-                      <ExternalLink size={18} /> View Online
-                    </a>
-                    <a
-                      href={cert.downloadLink}
-                      download={`${cert.title.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`}
-                      className="btn inline-flex items-center gap-2 rounded-lg px-4 py-2 font-medium transition bg-green-600 text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2"
-                    >
-                      <FileText size={18} /> Download PDF
-                    </a>
+                      <Image
+                        src={imgSrc}
+                        alt={`${cert.title} Certificate`}
+                        width={1000}
+                        height={700}
+                        className="w-full h-auto hover:opacity-90 transition-opacity"
+                        onError={() => setImgSrc(fallbackImage)}
+                      />
+                    </div>
+
+                    <div className="flex flex-wrap gap-3">
+                      <a
+                        href={cert.viewLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn inline-flex items-center gap-2 rounded-lg px-4 py-2 font-medium transition bg-accent text-white hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
+                      >
+                        <ExternalLink size={18} /> View Online
+                      </a>
+                      
+                      {/* Download PDF (disabled if missing) */}
+                      {pdfAvailable ? (
+                        <a
+                          href={cert.downloadLink}
+                          download={`${cert.title.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`}
+                          className="btn inline-flex items-center gap-2 rounded-lg px-4 py-2 font-medium transition bg-green-600 text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2"
+                        >
+                          <FileText size={18} /> Download PDF
+                        </a>
+                      ) : (
+                        <button
+                          disabled
+                          className="inline-flex items-center gap-2 rounded-lg px-4 py-2 font-medium bg-gray-400 text-white cursor-not-allowed"
+                        >
+                          <FileText size={18} /> PDF Not Available
+                        </button>
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </Container>
@@ -136,9 +170,11 @@ export default function Certifications() {
 
           {/* Main Image + Caption */}
           <div className="relative max-w-5xl w-full p-4 flex flex-col items-center">
-            <img
+            <Image
               src={certs[lightboxIndex].image}
               alt={`${certs[lightboxIndex].title} Certificate`}
+              width={1200}
+              height={900}
               className="w-full h-auto rounded shadow-lg mb-4"
             />
             <p className="text-white text-center text-lg mb-4">
@@ -174,10 +210,12 @@ export default function Certifications() {
                   }`}
                   onClick={() => setLightboxIndex(idx)}
                 >
-                  <img
+                  <Image
                     src={thumb.image}
                     alt={`${thumb.title} Thumbnail`}
-                    className="rounded w-30 h-20 object-cover"
+                    width={120}
+                    height={80}
+                    className="rounded"
                   />
                 </div>
               ))}
