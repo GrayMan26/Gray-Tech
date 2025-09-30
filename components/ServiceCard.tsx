@@ -10,7 +10,7 @@ interface ServiceCardProps {
 
 export default function ServiceCard({ title, description, icon, href }: ServiceCardProps) {
   const content = (
-    <div className="rounded-2xl border border-gray-200 p-6 transition-shadow hover:shadow-sm">
+    <div className="rounded-2xl border border-gray-800 bg-[#1e1e1e] p-6 transition-colors hover:bg-[#232323]">
       <div className="flex items-start space-x-3">
         {icon && (
           <div className="flex-shrink-0 text-accent">
@@ -19,7 +19,7 @@ export default function ServiceCard({ title, description, icon, href }: ServiceC
         )}
         <div>
           <h3 className="font-semibold text-foreground mb-2">{title}</h3>
-          <p className="text-sm text-gray-600">{description}</p>
+          <p className="text-sm text-gray-300">{description}</p>
         </div>
       </div>
     </div>
