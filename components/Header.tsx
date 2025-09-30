@@ -30,7 +30,7 @@ export default function Header() {
       <Container>
         <div className="flex h-16 items-center justify-between">
           <Link href="/" className="text-xl font-semibold text-foreground hover:text-accent transition-colors">
-            GrayTech Help
+            GrayTech
           </Link>
           
           <nav className="hidden md:flex space-x-8">
