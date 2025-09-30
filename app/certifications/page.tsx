@@ -1,7 +1,14 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import Image from "next/image";
 import Container from "../../components/Container";
-import { FileText, ExternalLink } from "lucide-react";
+import { FileText, ExternalLink, X, ChevronLeft, ChevronRight, Download } from "lucide-react";
 
 export default function Certifications() {
+  const [lightboxIndex, setLightboxIndex] = useState(null);
+  const [touchStartX, setTouchStartX] = useState(0);
+
   const certs = [
     {
       title: "Google Cloud Certification: Cloud Engineer",
@@ -26,70 +33,174 @@ export default function Certifications() {
     },
   ];
 
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (lightboxIndex === null) return;
+      if (e.key === "Escape") setLightboxIndex(null);
+      if (e.key === "ArrowRight") setLightboxIndex((lightboxIndex + 1) % certs.length);
+      if (e.key === "ArrowLeft") setLightboxIndex((lightboxIndex - 1 + certs.length) % certs.length);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [lightboxIndex, certs.length]);
+
+  // Swipe navigation
+  const handleTouchStart = (e) => setTouchStartX(e.touches[0].clientX);
+  const handleTouchEnd = (e) => {
+    if (lightboxIndex === null) return;
+    const touchEndX = e.changedTouches[0].clientX;
+    if (touchStartX - touchEndX > 50) {
+      setLightboxIndex((lightboxIndex + 1) % certs.length); // swipe left
+    } else if (touchEndX - touchStartX > 50) {
+      setLightboxIndex((lightboxIndex - 1 + certs.length) % certs.length); // swipe right
+    }
+  };
+
   return (
-    <section className="py-20">
-      <Container>
-        <div className="space-y-12">
-          <div className="text-center space-y-4">
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground">Certifications</h1>
-            <p className="text-lg text-gray-300 max-w-2xl mx-auto">
-              Verified credentials and certificates. View online or download as PDF.
-            </p>
+    <>
+      <section className="py-20">
+        <Container>
+          <div className="space-y-12">
+            <div className="text-center space-y-4">
+              <h1 className="text-4xl md:text-5xl font-bold text-foreground">Certifications</h1>
+              <p className="text-lg text-gray-300 max-w-2xl mx-auto">
+                Verified credentials and certificates. View online or download as PDF.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              {certs.map((cert, index) => (
+                <div key={cert.title} className="rounded-2xl border border-gray-800 bg-[#1e1e1e] p-6 shadow-sm">
+                  <h2 className="text-2xl font-semibold text-foreground mb-2">{cert.title}</h2>
+                  <p className="text-sm text-gray-400 mb-4">Completed {cert.date}</p>
+
+                  {/* Clickable certificate image */}
+                  <div
+                    className="relative w-full h-auto mb-6 cursor-pointer rounded-lg border border-gray-800 overflow-hidden bg-black/40"
+                    onClick={() => setLightboxIndex(index)}
+                  >
+                    <Image
+                      src={cert.image}
+                      alt={`${cert.title} Certificate`}
+                      width={1000}
+                      height={700}
+                      className="w-full h-auto hover:opacity-90 transition-opacity"
+                    />
+                  </div>
+
+                  <div className="flex flex-wrap gap-3">
+                    <a
+                      href={cert.viewLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn inline-flex items-center gap-2 rounded-lg px-4 py-2 font-medium transition bg-accent text-white hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
+                    >
+                      <ExternalLink size={18} /> View Online
+                    </a>
+                    <a
+                      href={cert.downloadLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn inline-flex items-center gap-2 rounded-lg px-4 py-2 font-medium transition bg-green-600 text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2"
+                    >
+                      <FileText size={18} /> Download PDF
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
+        </Container>
+      </section>
 
-          <div className="grid md:grid-cols-2 gap-6">
-            {certs.map((cert) => (
-              <div key={cert.title} className="rounded-2xl border border-gray-800 bg-[#1e1e1e] p-6 shadow-sm">
-                <h2 className="text-2xl font-semibold text-foreground mb-2">{cert.title}</h2>
-                <p className="text-sm text-gray-400 mb-4">Completed {cert.date}</p>
+      {/* Lightbox Modal */}
+      {lightboxIndex !== null && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-90 flex flex-col items-center justify-center z-50"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
+          {/* Close */}
+          <button
+            onClick={() => setLightboxIndex(null)}
+            className="absolute top-4 right-4 bg-white p-2 rounded-full shadow hover:bg-gray-200 z-10"
+          >
+            <X size={24} />
+          </button>
 
-                {/* Inline certificate image with responsive sizing and fallback */}
-                <div className="rounded-lg border border-gray-800 overflow-hidden mb-6 bg-black/40">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={cert.image}
-                    alt={`${cert.title} Certificate`}
-                    className="w-full h-auto block"
-                    onError={(e) => {
-                      const target = e.currentTarget as HTMLImageElement;
-                      const fallback =
-                        "data:image/svg+xml;charset=UTF-8," +
-                        encodeURIComponent(
-                          `<svg xmlns='http://www.w3.org/2000/svg' width='800' height='565'>\n` +
-                            `<rect width='100%' height='100%' fill='#111'/>\n` +
-                            `<text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='#e5e7eb' font-family='sans-serif' font-size='18'>Certificate image not found. Upload ${cert.image}.</text>\n` +
-                          `</svg>`
-                        );
-                      target.src = fallback;
-                    }}
+          {/* Prev */}
+          <button
+            onClick={() => setLightboxIndex((lightboxIndex - 1 + certs.length) % certs.length)}
+            className="absolute left-4 text-white p-2 hover:bg-white/20 rounded-full z-10"
+          >
+            <ChevronLeft size={32} />
+          </button>
+
+          {/* Main Image + Caption */}
+          <div className="relative max-w-5xl w-full p-4 flex flex-col items-center">
+            <Image
+              src={certs[lightboxIndex].image}
+              alt={`${certs[lightboxIndex].title} Certificate`}
+              width={1200}
+              height={900}
+              className="w-full h-auto rounded shadow-lg mb-4"
+            />
+            <p className="text-white text-center text-lg mb-4">
+              {certs[lightboxIndex].title} — Completed {certs[lightboxIndex].date}
+            </p>
+            
+            {/* Buttons inside Lightbox */}
+            <div className="flex gap-4 mb-4">
+              <a
+                href={certs[lightboxIndex].viewLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-4 py-2 bg-accent text-white rounded hover:bg-accent/90 transition-colors"
+              >
+                <ExternalLink size={18} /> View Online
+              </a>
+              <a
+                href={certs[lightboxIndex].downloadLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
+              >
+                <Download size={18} /> Download PDF
+              </a>
+            </div>
+            
+            {/* Thumbnails */}
+            <div className="flex gap-2 overflow-x-auto max-w-full">
+              {certs.map((thumb, idx) => (
+                <div
+                  key={idx}
+                  className={`cursor-pointer border-2 rounded flex-shrink-0 ${
+                    idx === lightboxIndex ? "border-accent" : "border-transparent"
+                  }`}
+                  onClick={() => setLightboxIndex(idx)}
+                >
+                  <Image
+                    src={thumb.image}
+                    alt={`${thumb.title} Thumbnail`}
+                    width={120}
+                    height={80}
+                    className="rounded"
                   />
                 </div>
-
-                <div className="flex flex-wrap gap-3">
-                  <a
-                    href={cert.viewLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn inline-flex items-center gap-2 rounded-lg px-4 py-2 font-medium transition bg-accent text-white hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
-                  >
-                    <ExternalLink size={18} /> View Online
-                  </a>
-                  <a
-                    href={cert.downloadLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn inline-flex items-center gap-2 rounded-lg px-4 py-2 font-medium transition bg-green-600 text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2"
-                  >
-                    <FileText size={18} /> Download PDF
-                  </a>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
+
+          {/* Next */}
+          <button
+            onClick={() => setLightboxIndex((lightboxIndex + 1) % certs.length)}
+            className="absolute right-4 text-white p-2 hover:bg-white/20 rounded-full z-10"
+          >
+            <ChevronRight size={32} />
+          </button>
         </div>
-      </Container>
-    </section>
+      )}
+    </>
   );
 }
-
-
