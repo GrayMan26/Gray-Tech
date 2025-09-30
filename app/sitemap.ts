@@ -5,25 +5,25 @@ export const dynamic = 'force-static'
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: 'https://graytech.help',
+      url: 'https://grayman26.github.io/Gray-Tech',
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 1,
     },
     {
-      url: 'https://graytech.help/services',
+      url: 'https://grayman26.github.io/Gray-Tech/services',
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
-      url: 'https://graytech.help/about',
+      url: 'https://grayman26.github.io/Gray-Tech/about',
       lastModified: new Date(),
       changeFrequency: 'yearly',
       priority: 0.5,
     },
     {
-      url: 'https://graytech.help/contact',
+      url: 'https://grayman26.github.io/Gray-Tech/contact',
       lastModified: new Date(),
       changeFrequency: 'yearly',
       priority: 0.8,
