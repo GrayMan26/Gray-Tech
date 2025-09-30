@@ -66,7 +66,7 @@ export default function About() {
                       <span className="font-semibold text-accent">Our Story</span>
                     </div>
                     <p className="text-lg leading-relaxed text-gray-700">
-                      GrayTech Help is a small, Philadelphia-based tech services company built on a simple idea: make technology feel effortless.
+                      GrayTech Help is a small, Philadelphia-based tech services company built on a simple idea: make technology feel effortless. I hold several certifications from Google and plan to pursue additional credentials to further expand my expertise.
                     </p>
                   </div>
                   
@@ -80,7 +80,7 @@ export default function About() {
                 <div className="bg-[#1e1e1e] rounded-2xl p-8 border border-gray-800 shadow-sm">
                   <h3 className="text-xl font-semibold text-foreground mb-4">What sets us apart</h3>
                   <p className="text-lg leading-relaxed text-gray-600 mb-6">
-                    Clear pricing, plain-English explanations, and solutions that fit your actual needs. No upsell, no jargon—just friendly, reliable help when you need it.
+                  Broad technical knowledge and extensive experience in solving a wide range of problems, allowing me to deliver tailored solutions that meet your specific needs. I provide end-to-end support for technical issues and communicate both the problem and its resolution clearly—without unnecessary technical jargon.
                   </p>
                   
                   <div className="grid grid-cols-2 gap-4">
