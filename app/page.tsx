@@ -219,7 +219,7 @@ export default function Home() {
         <Container>
           <div className="text-center space-y-6">
             <h2 className="text-2xl font-bold text-white">
-              Text or call now: <a href="tel:+16102416947" className="hover:underline">(610) 241-6947</a>
+              Text or call now: <a href="tel:+16102416947" className="hover:underline text-white">(610) 241-6947</a>
             </h2>
             <Button href="/contact" variant="secondary">
               Get in touch
