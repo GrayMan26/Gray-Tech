@@ -6,7 +6,7 @@ import Container from "../../components/Container";
 import { FileText, ExternalLink, X, ChevronLeft, ChevronRight, Download } from "lucide-react";
 
 export default function Certifications() {
-  const [lightboxIndex, setLightboxIndex] = useState(null);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [touchStartX, setTouchStartX] = useState(0);
 
   const certs = [
@@ -35,7 +35,7 @@ export default function Certifications() {
 
   // Keyboard navigation
   useEffect(() => {
-    const handleKeyDown = (e) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (lightboxIndex === null) return;
       if (e.key === "Escape") setLightboxIndex(null);
       if (e.key === "ArrowRight") setLightboxIndex((lightboxIndex + 1) % certs.length);
@@ -46,8 +46,8 @@ export default function Certifications() {
   }, [lightboxIndex, certs.length]);
 
   // Swipe navigation
-  const handleTouchStart = (e) => setTouchStartX(e.touches[0].clientX);
-  const handleTouchEnd = (e) => {
+  const handleTouchStart = (e: React.TouchEvent) => setTouchStartX(e.touches[0].clientX);
+  const handleTouchEnd = (e: React.TouchEvent) => {
     if (lightboxIndex === null) return;
     const touchEndX = e.changedTouches[0].clientX;
     if (touchStartX - touchEndX > 50) {
@@ -86,6 +86,7 @@ export default function Certifications() {
                       width={1000}
                       height={700}
                       className="w-full h-auto hover:opacity-90 transition-opacity"
+                      priority={index < 2}
                     />
                   </div>
 
@@ -100,8 +101,7 @@ export default function Certifications() {
                     </a>
                     <a
                       href={cert.downloadLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      download
                       className="btn inline-flex items-center gap-2 rounded-lg px-4 py-2 font-medium transition bg-green-600 text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2"
                     >
                       <FileText size={18} /> Download PDF
@@ -162,8 +162,7 @@ export default function Certifications() {
               </a>
               <a
                 href={certs[lightboxIndex].downloadLink}
-                target="_blank"
-                rel="noopener noreferrer"
+                download
                 className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
               >
                 <Download size={18} /> Download PDF
