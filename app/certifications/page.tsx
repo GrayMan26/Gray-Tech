@@ -75,18 +75,10 @@ export default function Certifications() {
                 const [imgSrc, setImgSrc] = useState(cert.image);
                 const [pdfAvailable, setPdfAvailable] = useState(true);
 
-                const checkPdfExists = async () => {
-                  try {
-                    const res = await fetch(cert.downloadLink, { method: "HEAD" });
-                    if (!res.ok) setPdfAvailable(false);
-                  } catch {
-                    setPdfAvailable(false);
-                  }
-                };
-
-                // Run the PDF existence check
+                // For now, assume PDFs are available since they exist in /public/files/
+                // The HEAD request approach was causing 404s due to Next.js routing
                 useEffect(() => {
-                  if (typeof window !== "undefined") checkPdfExists();
+                  setPdfAvailable(true);
                 }, []);
 
                 return (
@@ -99,11 +91,9 @@ export default function Certifications() {
                       className="relative w-full h-auto mb-6 cursor-pointer rounded-lg border border-gray-800 overflow-hidden bg-black/40"
                       onClick={() => setLightboxIndex(index)}
                     >
-                      <Image
+                      <img
                         src={imgSrc}
                         alt={`${cert.title} Certificate`}
-                        width={1000}
-                        height={700}
                         className="w-full h-auto hover:opacity-90 transition-opacity"
                         onError={() => setImgSrc(fallbackImage)}
                       />
@@ -170,11 +160,9 @@ export default function Certifications() {
 
           {/* Main Image + Caption */}
           <div className="relative max-w-5xl w-full p-4 flex flex-col items-center">
-            <Image
+            <img
               src={certs[lightboxIndex].image}
               alt={`${certs[lightboxIndex].title} Certificate`}
-              width={1200}
-              height={900}
               className="w-full h-auto rounded shadow-lg mb-4"
             />
             <p className="text-white text-center text-lg mb-4">
@@ -210,12 +198,10 @@ export default function Certifications() {
                   }`}
                   onClick={() => setLightboxIndex(idx)}
                 >
-                  <Image
+                  <img
                     src={thumb.image}
                     alt={`${thumb.title} Thumbnail`}
-                    width={120}
-                    height={80}
-                    className="rounded"
+                    className="rounded w-30 h-20 object-cover"
                   />
                 </div>
               ))}
