@@ -78,7 +78,6 @@ export default function About() {
                 </div>
                 
                 <div className="bg-[#1e1e1e] rounded-2xl p-8 border border-gray-800 shadow-sm">
-                <div className="bg-[#1e1e1e] rounded-2xl p-8 border border-gray-800 shadow-sm">
                   <h3 className="text-xl font-semibold text-foreground mb-4">What sets us apart</h3>
                   <p className="text-lg leading-relaxed text-gray-600 mb-6">
                     Clear pricing, plain-English explanations, and solutions that fit your actual needs. No upsell, no jargon—just friendly, reliable help when you need it.
