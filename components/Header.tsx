@@ -25,7 +25,7 @@ export default function Header() {
   ]
 
   return (
-    <header className={`sticky top-0 z-50 bg-white transition-shadow ${isScrolled ? 'shadow-sm' : ''}`}>
+    <header className={`sticky top-0 z-50 bg-[#1e1e1e] transition-shadow ${isScrolled ? 'shadow-sm' : ''}`}>
       <Container>
         <div className="flex h-16 items-center justify-between">
           <Link href="/" className="text-xl font-semibold text-foreground hover:text-accent transition-colors">

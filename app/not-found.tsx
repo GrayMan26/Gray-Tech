@@ -20,7 +20,7 @@ export default function NotFound() {
             <Button href="/" variant="primary">
               Go home
             </Button>
-            <Button href="/contact">
+            <Button href="/contact" variant="primary">
               Contact us
             </Button>
           </div>
