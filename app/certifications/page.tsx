@@ -1,25 +1,25 @@
 import Container from "../../components/Container";
-import Button from "../../components/Button";
+import { FileText, ExternalLink } from "lucide-react";
 
 export default function Certifications() {
-  const items = [
+  const certs = [
     {
       title: "Google Cloud Certification: Cloud Engineer",
-      date: "Completed June 12, 2025",
-      viewUrl: "https://coursera.org/verify/professional-cert/DWYPO88GZSTF",
-      pdfPath: "/files/Google%20Cloud%20Certification%20Cloud%20Engineer%20Cert.pdf",
+      date: "June 12, 2025",
+      viewLink: "https://coursera.org/verify/professional-cert/DWYPO88GZSTF",
+      downloadLink: "/certifications/google-cloud-certification-cloud-engineer-cert.pdf",
     },
     {
       title: "Google Cloud Digital Leader Training",
-      date: "Completed Dec 15, 2023",
-      viewUrl: "https://coursera.org/verify/professional-cert/BD89CRTEJEA5",
-      pdfPath: "/files/Google%20Cloud%20Digital%20Leader%20Cert.pdf",
+      date: "Dec 15, 2023",
+      viewLink: "https://coursera.org/verify/professional-cert/BD89CRTEJEA5",
+      downloadLink: "/certifications/google-cloud-digital-leader-cert.pdf",
     },
     {
       title: "Google IT Support Professional Certificate",
-      date: "Completed Aug 10, 2023",
-      viewUrl: "https://coursera.org/verify/professional-cert/7RLQ889XPSRX",
-      pdfPath: "/files/Google%20It%20Support%20Cert.pdf",
+      date: "Aug 10, 2023",
+      viewLink: "https://coursera.org/verify/professional-cert/7RLQ889XPSRX",
+      downloadLink: "/certifications/google-it-support-cert.pdf",
     },
   ];
 
@@ -35,17 +35,35 @@ export default function Certifications() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-6">
-            {items.map((cert) => (
+            {certs.map((cert) => (
               <div key={cert.title} className="rounded-2xl border border-gray-800 bg-[#1e1e1e] p-6 shadow-sm">
                 <h2 className="text-2xl font-semibold text-foreground mb-2">{cert.title}</h2>
-                <p className="text-sm text-gray-400 mb-6">{cert.date}</p>
+                <p className="text-sm text-gray-400 mb-4">Completed {cert.date}</p>
+
+                {/* Inline PDF preview */}
+                <div className="rounded-lg border border-gray-800 overflow-hidden mb-6 bg-black/40">
+                  <object data={`${cert.downloadLink}#view=FitH`} type="application/pdf" className="w-full" style={{ height: 560 }}>
+                    <iframe src={`${cert.downloadLink}#view=FitH`} className="w-full" style={{ height: 560 }} title={`${cert.title} PDF`}></iframe>
+                  </object>
+                </div>
+
                 <div className="flex flex-wrap gap-3">
-                  <Button href={cert.viewUrl} variant="primary" target="_blank" rel="noopener noreferrer" className="px-6">
-                    View Online
-                  </Button>
-                  <Button href={cert.pdfPath} variant="secondary" download className="px-6">
-                    Download PDF
-                  </Button>
+                  <a
+                    href={cert.viewLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn inline-flex items-center gap-2 rounded-lg px-4 py-2 font-medium transition bg-accent text-white hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
+                  >
+                    <ExternalLink size={18} /> View Online
+                  </a>
+                  <a
+                    href={cert.downloadLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn inline-flex items-center gap-2 rounded-lg px-4 py-2 font-medium transition bg-green-600 text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2"
+                  >
+                    <FileText size={18} /> Download PDF
+                  </a>
                 </div>
               </div>
             ))}
