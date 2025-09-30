@@ -25,7 +25,7 @@ export default function Button({
     secondary: 'border border-gray-200 bg-white text-foreground hover:bg-gray-50'
   }
 
-  const classes = `${baseClasses} ${variantClasses[variant]} ${className}`
+  const classes = `${baseClasses} ${variantClasses[variant]} ${className}`.trim()
 
   if (href) {
     return (
