@@ -6,18 +6,21 @@ export default function Certifications() {
     {
       title: "Google Cloud Certification: Cloud Engineer",
       date: "June 12, 2025",
+      image: "/certifications/images/google-cloud-certification-cloud-engineer-cert.png",
       viewLink: "https://coursera.org/verify/professional-cert/DWYPO88GZSTF",
       downloadLink: "/certifications/google-cloud-certification-cloud-engineer-cert.pdf",
     },
     {
       title: "Google Cloud Digital Leader Training",
       date: "Dec 15, 2023",
+      image: "/certifications/images/google-cloud-digital-leader-cert.png",
       viewLink: "https://coursera.org/verify/professional-cert/BD89CRTEJEA5",
       downloadLink: "/certifications/google-cloud-digital-leader-cert.pdf",
     },
     {
       title: "Google IT Support Professional Certificate",
       date: "Aug 10, 2023",
+      image: "/certifications/images/google-it-support-cert.png",
       viewLink: "https://coursera.org/verify/professional-cert/7RLQ889XPSRX",
       downloadLink: "/certifications/google-it-support-cert.pdf",
     },
@@ -40,11 +43,26 @@ export default function Certifications() {
                 <h2 className="text-2xl font-semibold text-foreground mb-2">{cert.title}</h2>
                 <p className="text-sm text-gray-400 mb-4">Completed {cert.date}</p>
 
-                {/* Inline PDF preview */}
+                {/* Inline certificate image with responsive sizing and fallback */}
                 <div className="rounded-lg border border-gray-800 overflow-hidden mb-6 bg-black/40">
-                  <object data={`${cert.downloadLink}#view=FitH`} type="application/pdf" className="w-full" style={{ height: 560 }}>
-                    <iframe src={`${cert.downloadLink}#view=FitH`} className="w-full" style={{ height: 560 }} title={`${cert.title} PDF`}></iframe>
-                  </object>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={cert.image}
+                    alt={`${cert.title} Certificate`}
+                    className="w-full h-auto block"
+                    onError={(e) => {
+                      const target = e.currentTarget as HTMLImageElement;
+                      const fallback =
+                        "data:image/svg+xml;charset=UTF-8," +
+                        encodeURIComponent(
+                          `<svg xmlns='http://www.w3.org/2000/svg' width='800' height='565'>\n` +
+                            `<rect width='100%' height='100%' fill='#111'/>\n` +
+                            `<text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='#e5e7eb' font-family='sans-serif' font-size='18'>Certificate image not found. Upload ${cert.image}.</text>\n` +
+                          `</svg>`
+                        );
+                      target.src = fallback;
+                    }}
+                  />
                 </div>
 
                 <div className="flex flex-wrap gap-3">
