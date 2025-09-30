@@ -94,8 +94,8 @@ export default function Certifications() {
                       <img
                         src={imgSrc}
                         alt={`${cert.title} Certificate`}
-                        className="w-full max-w-4xl mx-auto h-auto rounded shadow-lg hover:opacity-90 transition-opacity"
-                        style={{ width: '1600px', height: '1100px', objectFit: 'contain' }}
+                        className="w-full h-auto hover:opacity-90 transition-opacity"
+                        style={{ width: '200px', height: '100px', objectFit: 'cover' }}
                         onError={() => setImgSrc(fallbackImage)}
                       />
                     </div>
@@ -164,8 +164,7 @@ export default function Certifications() {
             <img
               src={certs[lightboxIndex].image}
               alt={`${certs[lightboxIndex].title} Certificate`}
-              className="w-full max-w-6xl mx-auto h-auto rounded shadow-lg mb-4"
-              style={{ width: '1600px', height: '1100px', objectFit: 'contain' }}
+              className="w-full h-auto rounded shadow-lg mb-4"
             />
             <p className="text-white text-center text-lg mb-4">
               {certs[lightboxIndex].title} — Completed {certs[lightboxIndex].date}
@@ -203,8 +202,7 @@ export default function Certifications() {
                   <img
                     src={thumb.image}
                     alt={`${thumb.title} Thumbnail`}
-                    className="rounded object-cover"
-                    style={{ width: '120px', height: '80px' }}
+                    className="rounded w-30 h-20 object-cover"
                   />
                 </div>
               ))}
