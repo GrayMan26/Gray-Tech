@@ -29,8 +29,9 @@ body {
 .text-gray-600 { color: #d1d5db !important; }
 
 /* Links */
-a { color: var(--accent); }
-a:hover { color: color-mix(in oklab, var(--accent), white 15%); }
+/* Default link color, but exclude button-styled links */
+a:not(.btn) { color: var(--accent); }
+a:not(.btn):hover { color: color-mix(in oklab, var(--accent), white 15%); }
 
 /* Ensure links contrast on accent backgrounds */
 .bg-accent a { color: #ffffff !important; }
