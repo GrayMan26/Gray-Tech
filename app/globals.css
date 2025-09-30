@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #0B0B0B;
-  --gray-light: #E5E7EB;
+  --background: #121212;
+  --foreground: #E5E7EB;
+  --gray-light: #2A2A2A;
   --accent: #4F46E5;
 }
 
@@ -21,3 +21,13 @@ body {
   font-family: ui-sans-serif, system-ui, sans-serif;
   line-height: 1.6;
 }
+
+/* Dark theme utility overrides to ensure contrast */
+.bg-white { background-color: #1e1e1e !important; }
+.border-gray-200 { border-color: #2a2a2a !important; }
+.text-gray-700 { color: #e5e7eb !important; }
+.text-gray-600 { color: #d1d5db !important; }
+
+/* Links */
+a { color: var(--accent); }
+a:hover { color: color-mix(in oklab, var(--accent), white 15%); }
