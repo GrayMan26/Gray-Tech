@@ -95,6 +95,7 @@ export default function Certifications() {
                         src={imgSrc}
                         alt={`${cert.title} Certificate`}
                         className="w-full h-auto hover:opacity-90 transition-opacity"
+                        style={{ width: '200px', height: '100px', objectFit: 'cover' }}
                         onError={() => setImgSrc(fallbackImage)}
                       />
                     </div>
@@ -201,7 +202,8 @@ export default function Certifications() {
                   <img
                     src={thumb.image}
                     alt={`${thumb.title} Thumbnail`}
-                    className="rounded w-30 h-20 object-cover"
+                    className="rounded object-cover"
+                    style={{ width: '200px', height: '100px' }}
                   />
                 </div>
               ))}
