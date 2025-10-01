@@ -8,6 +8,9 @@ interface ButtonProps {
   variant?: 'primary' | 'secondary'
   type?: 'button' | 'submit'
   className?: string
+  target?: string
+  rel?: string
+  download?: boolean
 }
 
 export default function Button({ 
@@ -16,20 +19,23 @@ export default function Button({
   onClick, 
   variant = 'secondary',
   type = 'button',
-  className = '' 
+  className = '',
+  target,
+  rel,
+  download
 }: ButtonProps) {
   const baseClasses = 'btn inline-flex items-center rounded-lg px-4 py-2 font-medium transition active:scale-[.99] focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2'
   
   const variantClasses = {
     primary: 'bg-accent text-white hover:bg-accent/90 !text-white',
-    secondary: 'border border-gray-700 bg-transparent text-foreground hover:bg-[#2a2a2a]'
+    secondary: 'border border-border bg-transparent text-foreground hover:bg-gray-light transition-colors duration-300'
   }
 
   const classes = `${baseClasses} ${variantClasses[variant]} ${className}`.trim()
 
   if (href) {
     return (
-      <Link href={href} className={classes}>
+      <Link href={href} className={classes} target={target} rel={rel} download={download}>
         {children}
       </Link>
     )
