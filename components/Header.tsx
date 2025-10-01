@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import Container from './Container'
+import ThemeToggle from './ThemeToggle'
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -26,12 +27,15 @@ export default function Header() {
   ]
 
   return (
-    <header className={`sticky top-0 z-50 bg-[#1e1e1e] transition-shadow ${isScrolled ? 'shadow-sm' : ''}`}>
+    <header className={`sticky top-0 z-50 bg-card-bg border-b border-border transition-all duration-300 ${isScrolled ? 'shadow-sm' : ''}`}>
       <Container>
         <div className="flex h-16 items-center justify-between">
-          <Link href="/" className="text-xl font-semibold text-foreground hover:text-accent transition-colors">
-            GrayTech
-          </Link>
+          <div className="flex items-center space-x-4">
+            <Link href="/" className="text-xl font-semibold text-foreground hover:text-accent transition-colors">
+              GrayTech
+            </Link>
+            <ThemeToggle />
+          </div>
           
           <nav className="hidden md:flex space-x-8">
             {navItems.map((item) => (

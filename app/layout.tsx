@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import ClientWrapper from "../components/ClientWrapper";
 
 export const metadata: Metadata = {
   title: "GrayTech Help | Friendly, local tech help—done right.",
@@ -24,11 +25,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="min-h-screen flex flex-col antialiased">
-        <Header />
-        <main className="flex-1">
-          {children}
-        </main>
-        <Footer />
+        <ClientWrapper>
+          <Header />
+          <main className="flex-1">
+            {children}
+          </main>
+          <Footer />
+        </ClientWrapper>
       </body>
     </html>
   );

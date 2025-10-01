@@ -28,7 +28,7 @@ export default function Button({
   
   const variantClasses = {
     primary: 'bg-accent text-white hover:bg-accent/90 !text-white',
-    secondary: 'border border-gray-700 bg-transparent text-foreground hover:bg-[#2a2a2a]'
+    secondary: 'border border-border bg-transparent text-foreground hover:bg-gray-light transition-colors duration-300'
   }
 
   const classes = `${baseClasses} ${variantClasses[variant]} ${className}`.trim()

@@ -1,10 +1,25 @@
 @import "tailwindcss";
 
+/* Dark Theme (Default) */
 :root {
   --background: #121212;
   --foreground: #E5E7EB;
   --gray-light: #2A2A2A;
   --accent: #4F46E5;
+  --card-bg: #1e1e1e;
+  --border: #2a2a2a;
+  --muted: #6b7280;
+}
+
+/* Light Theme */
+[data-theme="light"] {
+  --background: #ffffff;
+  --foreground: #1f2937;
+  --gray-light: #f3f4f687;
+  --accent: #3b82f6;
+  --card-bg: #f9fafb;
+  --border: #e5e7eb;
+  --muted: #6b7280;
 }
 
 @theme inline {
@@ -12,6 +27,9 @@
   --color-foreground: var(--foreground);
   --color-gray-light: var(--gray-light);
   --color-accent: var(--accent);
+  --color-card-bg: var(--card-bg);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
   --font-sans: ui-sans-serif, system-ui, sans-serif;
 }
 
@@ -20,13 +38,26 @@ body {
   color: var(--foreground);
   font-family: ui-sans-serif, system-ui, sans-serif;
   line-height: 1.6;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Dark theme utility overrides to ensure contrast */
-.bg-white { background-color: #1e1e1e !important; }
-.border-gray-200 { border-color: #2a2a2a !important; }
-.text-gray-700 { color: #e5e7eb !important; }
-.text-gray-600 { color: #d1d5db !important; }
+/* Theme-aware utility overrides */
+.bg-white { 
+  background-color: var(--card-bg) !important; 
+  transition: background-color 0.3s ease;
+}
+.border-gray-200 { 
+  border-color: var(--border) !important; 
+  transition: border-color 0.3s ease;
+}
+.text-gray-700 { 
+  color: var(--foreground) !important; 
+  transition: color 0.3s ease;
+}
+.text-gray-600 { 
+  color: var(--muted) !important; 
+  transition: color 0.3s ease;
+}
 
 /* Links */
 /* Default link color, but exclude button-styled links */

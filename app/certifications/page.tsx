@@ -8,29 +8,29 @@ import { FileText, ExternalLink, X, ChevronLeft, ChevronRight, Download } from "
 export default function Certifications() {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [touchStartX, setTouchStartX] = useState(0);
-  const fallbackImage = "/certifications/images/fallback-cert.png"; // add a generic fallback image here
+  const fallbackImage = "/Gray-Tech/certifications/images/fallback-cert.png"; // add a generic fallback image here
 
   const certs = [
     {
       title: "Google Cloud Certification: Cloud Engineer",
       date: "June 12, 2025",
-      image: "/certifications/images/google-cloud-certification-cloud-engineer-cert.png",
+      image: "/Gray-Tech/certifications/images/google-cloud-certification-cloud-engineer-cert.png",
       viewLink: "https://coursera.org/verify/professional-cert/DWYPO88GZSTF",
-      downloadLink: "/files/Google%20Cloud%20Certification%20Cloud%20Engineer%20Cert.pdf",
+      downloadLink: "/Gray-Tech/files/Google%20Cloud%20Certification%20Cloud%20Engineer%20Cert.pdf",
     },
     {
       title: "Google Cloud Digital Leader Training",
       date: "Dec 15, 2023",
-      image: "/certifications/images/google-cloud-digital-leader-cert.png",
-      viewLink: "https://coursera.org/verify/professional-cert/BD89CRTEJEA5",
-      downloadLink: "/files/Google%20Cloud%20Digital%20Leader%20Cert.pdf",
+      image: "/Gray-Tech/certifications/images/google-cloud-digital-leader-cert.png",
+      viewLink: "https://www.coursera.org/professional-certificates/google-cloud-digital-leader-training",
+      downloadLink: "/Gray-Tech/files/Google%20Cloud%20Digital%20Leader%20Cert.pdf",
     },
     {
       title: "Google IT Support Professional Certificate",
       date: "Aug 10, 2023",
-      image: "/certifications/images/google-it-support-cert.png",
+      image: "/Gray-Tech/certifications/images/google-it-support-cert.png",
       viewLink: "https://coursera.org/verify/professional-cert/7RLQ889XPSRX",
-      downloadLink: "/files/Google%20It%20Support%20Cert.pdf",
+      downloadLink: "/Gray-Tech/files/Google%20It%20Support%20Cert.pdf",
     },
   ];
 
@@ -82,13 +82,13 @@ export default function Certifications() {
                 }, []);
 
                 return (
-                  <div key={cert.title} className="rounded-2xl border border-gray-800 bg-[#1e1e1e] p-6 shadow-sm">
+                  <div key={cert.title} className="rounded-2xl border border-border bg-card-bg p-6 shadow-sm transition-colors duration-300">
                     <h2 className="text-2xl font-semibold text-foreground mb-2">{cert.title}</h2>
-                    <p className="text-sm text-gray-400 mb-4">Completed {cert.date}</p>
+                    <p className="text-sm text-muted mb-4">Completed {cert.date}</p>
 
                     {/* Clickable certificate image with fallback */}
                     <div
-                      className="relative w-full h-auto mb-6 cursor-pointer rounded-lg border border-gray-800 overflow-hidden bg-black/40"
+                      className="relative w-full h-auto mb-6 cursor-pointer rounded-lg border border-border overflow-hidden bg-black/40 transition-colors duration-300"
                       onClick={() => setLightboxIndex(index)}
                     >
                       <img
@@ -104,7 +104,7 @@ export default function Certifications() {
                         href={cert.viewLink}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="btn inline-flex items-center gap-2 rounded-lg px-4 py-2 font-medium transition bg-accent text-white hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
+                        className="btn inline-flex items-center gap-2 rounded-lg px-4 py-2 font-medium transition bg-accent text-white !text-white hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
                       >
                         <ExternalLink size={18} /> View Online
                       </a>
@@ -114,14 +114,14 @@ export default function Certifications() {
                         <a
                           href={cert.downloadLink}
                           download={`${cert.title.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`}
-                          className="btn inline-flex items-center gap-2 rounded-lg px-4 py-2 font-medium transition bg-green-600 text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2"
+                          className="btn inline-flex items-center gap-2 rounded-lg px-4 py-2 font-medium transition bg-green-600 text-white !text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2"
                         >
                           <FileText size={18} /> Download PDF
                         </a>
                       ) : (
                         <button
                           disabled
-                          className="inline-flex items-center gap-2 rounded-lg px-4 py-2 font-medium bg-gray-400 text-white cursor-not-allowed"
+                          className="inline-flex items-center gap-2 rounded-lg px-4 py-2 font-medium bg-gray-400 text-white !text-white cursor-not-allowed"
                         >
                           <FileText size={18} /> PDF Not Available
                         </button>
@@ -138,14 +138,14 @@ export default function Certifications() {
       {/* Lightbox Modal */}
       {lightboxIndex !== null && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-90 flex flex-col items-center justify-center z-50"
+          className="fixed inset-0 bg-slate-900/85 backdrop-blur-md flex flex-col items-center justify-center z-50"
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
         >
           {/* Close */}
           <button
             onClick={() => setLightboxIndex(null)}
-            className="absolute top-4 right-4 bg-white p-2 rounded-full shadow hover:bg-gray-200 z-10"
+            className="absolute top-4 right-4 bg-white text-black p-2 rounded-full shadow hover:bg-gray-200 z-10"
           >
             <X size={24} />
           </button>
@@ -153,7 +153,7 @@ export default function Certifications() {
           {/* Prev */}
           <button
             onClick={() => setLightboxIndex((lightboxIndex - 1 + certs.length) % certs.length)}
-            className="absolute left-4 text-white p-2 hover:bg-white/20 rounded-full z-10"
+            className="absolute left-4 text-white !text-white p-2 hover:bg-white/20 rounded-full z-10"
           >
             <ChevronLeft size={32} />
           </button>
@@ -165,7 +165,7 @@ export default function Certifications() {
               alt={`${certs[lightboxIndex].title} Certificate`}
               className="w-full h-auto rounded shadow-lg mb-4"
             />
-            <p className="text-white text-center text-lg mb-4">
+            <p className="text-white !text-white text-center text-lg mb-4 bg-black/50 px-4 py-2 rounded-lg backdrop-blur-sm">
               {certs[lightboxIndex].title} — Completed {certs[lightboxIndex].date}
             </p>
             
@@ -175,14 +175,14 @@ export default function Certifications() {
                 href={certs[lightboxIndex].viewLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-4 py-2 bg-accent text-white rounded hover:bg-accent/90 transition-colors"
+                className="flex items-center gap-2 px-4 py-2 bg-accent text-white rounded hover:bg-accent/90 transition-colors !text-white"
               >
                 <ExternalLink size={18} /> View Online
               </a>
               <a
                 href={certs[lightboxIndex].downloadLink}
                 download={`${certs[lightboxIndex].title.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`}
-                className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
+                className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors !text-white"
               >
                 <Download size={18} /> Download PDF
               </a>
@@ -213,7 +213,7 @@ export default function Certifications() {
           {/* Next */}
           <button
             onClick={() => setLightboxIndex((lightboxIndex + 1) % certs.length)}
-            className="absolute right-4 text-white p-2 hover:bg-white/20 rounded-full z-10"
+            className="absolute right-4 text-white !text-white p-2 hover:bg-white/20 rounded-full z-10"
           >
             <ChevronRight size={32} />
           </button>
