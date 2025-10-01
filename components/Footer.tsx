@@ -16,7 +16,7 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
           <div className="flex flex-col space-y-2">
             <p className="text-sm text-muted">
-              © {currentYear} GrayTech Help
+              © {currentYear} GrayTech Inc
             </p>
             <p className="text-sm text-muted">
               Philadelphia, PA
