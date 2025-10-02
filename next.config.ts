@@ -1,8 +1,11 @@
 import type { NextConfig } from "next";
 
+const isProduction = process.env.NODE_ENV === 'production';
+const isGitHubPages = process.env.GITHUB_ACTIONS === 'true';
+
 const nextConfig: NextConfig = {
-  // Only use export settings for production builds
-  ...(process.env.NODE_ENV === 'production' && {
+  // GitHub Pages deployment settings
+  ...(isProduction && isGitHubPages && {
     output: 'export',
     trailingSlash: true,
     skipTrailingSlashRedirect: true,

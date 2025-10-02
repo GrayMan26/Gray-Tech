@@ -227,7 +227,7 @@ function CertCard({ cert, onImageClick }: { cert: { title: string; date: string;
           src={imgSrc}
           alt={`${cert.title} Certificate`}
           className="w-full h-auto rounded shadow hover:opacity-90 transition-opacity"
-          onError={() => setImgSrc("/certifications/images/fallback-cert.png")}
+           onError={() => setImgSrc("/certifications/images/fallback-cert.png")}
         />
       </div>
 

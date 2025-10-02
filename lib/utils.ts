@@ -1,17 +1,21 @@
-import { type ClassValue, clsx } from "clsx"
+import { clsx, type ClassValue } from "clsx"
 
 export function cn(...inputs: ClassValue[]) {
   return clsx(inputs)
 }
 
-export function formatPhoneNumber(phone: string): string {
-  // Remove all non-numeric characters
-  const cleaned = phone.replace(/\D/g, '');
+// Get the correct asset path based on environment
+export function getAssetPath(path: string): string {
+  // Check if we're running on GitHub Pages by looking at the hostname
+  const isGitHubPages = typeof window !== 'undefined' && 
+    (window.location.hostname.includes('github.io') || 
+     window.location.pathname.startsWith('/Gray-Tech'));
   
-  // Format as (XXX) XXX-XXXX
-  if (cleaned.length === 10) {
-    return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3, 6)}-${cleaned.slice(6)}`;
-  }
+  // In GitHub Pages deployment, we need the basePath prefix
+  const basePath = isGitHubPages ? '/Gray-Tech' : '';
   
-  return phone;
+  // Ensure path starts with /
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  
+  return `${basePath}${normalizedPath}`;
 }
