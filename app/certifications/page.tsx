@@ -60,7 +60,7 @@ export default function Certifications() {
     {
       title: "Google Cloud Certification: Cloud Engineer",
       date: "June 12, 2025",
-      image: "/certifications/images/google-cloud-certification-cloud-engineer-cert.png",
+      image: "public/certifications/images/google-cloud-certification-cloud-engineer-cert.png",
       viewLink: "https://coursera.org/verify/professional-cert/DWYPO88GZSTF",
       downloadLink: "/files/Google%20Cloud%20Certification%20Cloud%20Engineer%20Cert.pdf",
     },
