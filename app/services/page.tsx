@@ -2,7 +2,6 @@
 
 import Container from "../../components/Container";
 import Button from "../../components/Button";
-import { Metadata } from "next";
 import { useState, useRef, useEffect } from "react";
 import { 
   Printer, 
@@ -324,7 +323,7 @@ export default function Services() {
                           {/* Features */}
                           <div>
                             <h3 className="text-xl font-semibold text-foreground mb-3">
-                              What's Included
+                              What&apos;s Included
                             </h3>
                             <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
                               {service.features.map((feature, index) => (
