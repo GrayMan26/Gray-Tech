@@ -245,7 +245,7 @@ export default function Contact() {
                 Service Area
               </h3>
               <p className="text-gray-600">
-                Proudly serving Philadelphia and surrounding areas. On-site visits available within the city limits.
+                Proudly serving Philadelphia and Orlando areas. On-site visits available within 50 miles of current location.
               </p>
             </div>
           </div>
