@@ -73,7 +73,7 @@ export default function Services() {
                 Our Services
               </h1>
               <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                From simple setups to complex builds, we handle the tech so you can focus on what matters.
+                From simple setups to complex builds, we handle the tech so you can focus on what matters. Prices are based on the complexity of the task and the time it takes to complete.
               </p>
             </div>
 

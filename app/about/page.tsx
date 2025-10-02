@@ -6,7 +6,6 @@ import {
   Shield, 
   Lightbulb,
   MapPin,
-  Users,
   Award
 } from "lucide-react";
 
@@ -44,16 +43,20 @@ export default function About() {
           <div className="space-y-16">
             <div className="text-center space-y-6">
               <div className="flex justify-center">
-                <div className="flex items-center justify-center w-20 h-20 bg-accent/10 rounded-2xl border border-accent/20">
-                  <Users className="h-10 w-10 text-accent" />
+                <div className="relative w-60 h-75 rounded-2xl overflow-hidden border-2 border-accent/20 shadow-lg">
+                  <img
+                    src="/images/profile-photo.png"
+                    alt="Professional headshot"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
               </div>
               <h1 className="text-4xl md:text-5xl font-bold text-foreground">
-                About GrayTech Help
+                About GrayTech Inc
               </h1>
               <div className="flex justify-center items-center gap-2 text-gray-600">
                 <MapPin className="h-5 w-5" />
-                <span className="text-lg">Philadelphia, Pennsylvania</span>
+                <span className="text-lg">Philadelphia, Pennsylvania \ Orlando, Florida</span>
               </div>
             </div>
 
@@ -86,11 +89,11 @@ export default function About() {
                   <div className="grid grid-cols-2 gap-4">
                     <div className="text-center p-4 bg-green-100 rounded-lg transition-colors duration-300">
                       <div className="text-2xl font-bold text-green-600">3+</div>
-                      <div className="text-sm text-green-600">Years serving Philly</div>
+                      <div className="text-sm text-green-600">Years helping and fixing</div>
                     </div>
                     <div className="text-center p-4 bg-blue-100 rounded-lg transition-colors duration-300">
                       <div className="text-2xl font-bold text-blue-600">20+</div>
-                      <div className="text-sm text-blue-600">Happy customers</div>
+                      <div className="text-sm text-blue-600">Happy customers and neighbors</div>
                     </div>
                   </div>
                 </div>

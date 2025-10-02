@@ -92,7 +92,7 @@ export default function Certifications() {
               Certifications
             </h1>
             <p className="text-lg text-gray-300 max-w-2xl mx-auto">
-              Verified credentials and certificates. View online or download as PDF.
+              Verified credentials and certificates I recived from Google in various technological fields. I plan to pursue additional credentials to further expand my expertise and Knowledge.
             </p>
           </div>
 
