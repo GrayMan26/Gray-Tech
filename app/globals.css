@@ -90,3 +90,108 @@ a:not(.btn):hover { color: color-mix(in oklab, var(--accent), white 15%); }
 [data-theme="light"] .bg-blue-100 {
   background-color: #dbeafe !important;
 }
+
+/* Service Dropdown Enhancements */
+.service-dropdown {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* Light mode frosted glass */
+[data-theme="light"] .service-dropdown {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode frosted glass */
+[data-theme="dark"] .service-dropdown {
+  background: rgba(17, 17, 17, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* Improved button hover effects */
+.learn-more-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.learn-more-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(var(--color-accent), 0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.learn-more-btn:hover::before {
+  left: 100%;
+}
+
+/* Enhanced focus states */
+.learn-more-btn:focus {
+  box-shadow: 0 0 0 3px rgba(var(--color-accent), 0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .service-dropdown .p-8 {
+    padding: 1.5rem;
+  }
+  
+  .service-dropdown .pr-16 {
+    padding-right: 3rem;
+  }
+  
+  .service-dropdown .grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Animation classes for smooth transitions */
+.dropdown-enter {
+  opacity: 0;
+  transform: translateY(-10px) scale(0.95);
+}
+
+.dropdown-enter-active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dropdown-exit {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.dropdown-exit-active {
+  opacity: 0;
+  transform: translateY(-10px) scale(0.95);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Icon morphing animation */
+.icon-morph {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Close button enhancement */
+.close-btn {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+[data-theme="light"] .close-btn {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] .close-btn {
+  background: rgba(31, 41, 55, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
