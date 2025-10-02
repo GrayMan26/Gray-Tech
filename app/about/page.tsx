@@ -77,18 +77,18 @@ export default function About() {
                   </div>
                 </div>
                 
-                <div className="bg-[#1e1e1e] rounded-2xl p-8 border border-gray-800 shadow-sm">
+                <div className="bg-card-bg rounded-2xl p-8 border border-border shadow-sm transition-colors duration-300">
                   <h3 className="text-xl font-semibold text-foreground mb-4">What sets us apart</h3>
-                  <p className="text-lg leading-relaxed text-gray-600 mb-6">
+                  <p className="text-lg leading-relaxed text-muted mb-6">
                   Broad technical knowledge and extensive experience in solving a wide range of problems, allowing me to deliver tailored solutions that meet your specific needs. I provide end-to-end support for technical issues and communicate both the problem and its resolution clearly—without unnecessary technical jargon.
                   </p>
                   
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="text-center p-4 bg-green-50 rounded-lg">
+                    <div className="text-center p-4 bg-green-100 rounded-lg transition-colors duration-300">
                       <div className="text-2xl font-bold text-green-600">3+</div>
                       <div className="text-sm text-green-600">Years serving Philly</div>
                     </div>
-                    <div className="text-center p-4 bg-blue-50 rounded-lg">
+                    <div className="text-center p-4 bg-blue-100 rounded-lg transition-colors duration-300">
                       <div className="text-2xl font-bold text-blue-600">20+</div>
                       <div className="text-sm text-blue-600">Happy customers</div>
                     </div>

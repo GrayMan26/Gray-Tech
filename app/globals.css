@@ -14,12 +14,12 @@
 /* Light Theme */
 [data-theme="light"] {
   --background: #ffffff;
-  --foreground: #1f2937;
-  --gray-light: #f3f4f687;
+  --foreground: #000000;
+  --gray-light: #f3f4f6;
   --accent: #3b82f6;
   --card-bg: #f9fafb;
   --border: #e5e7eb;
-  --muted: #6b7280;
+  --muted: #1f2937;
 }
 
 @theme inline {
@@ -67,3 +67,26 @@ a:not(.btn):hover { color: color-mix(in oklab, var(--accent), white 15%); }
 /* Ensure links contrast on accent backgrounds */
 .bg-accent a { color: #ffffff !important; }
 .bg-accent a:hover { color: #ffffff !important; opacity: 0.9; }
+
+/* Light theme specific improvements */
+[data-theme="light"] .text-gray-300 {
+  color: #1f2937 !important; /* Much darker gray for better contrast */
+}
+
+[data-theme="light"] .text-gray-400 {
+  color: #111827 !important; /* Very dark for excellent readability */
+}
+
+/* Ensure sufficient contrast for muted text in light theme */
+[data-theme="light"] .text-muted {
+  color: #1f2937 !important;
+}
+
+/* Light theme overrides for colored stat boxes */
+[data-theme="light"] .bg-green-100 {
+  background-color: #dcfce7 !important;
+}
+
+[data-theme="light"] .bg-blue-100 {
+  background-color: #dbeafe !important;
+}

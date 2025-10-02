@@ -152,14 +152,14 @@ export default function Certifications() {
                 href={certs[lightboxIndex].viewLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-4 py-2 bg-accent text-white rounded hover:bg-accent/90 transition-colors"
+                className="flex items-center gap-2 px-4 py-2 bg-accent text-white !text-white rounded hover:bg-accent/90 transition-colors"
               >
                 <ExternalLink size={18} /> View Online
               </a>
               <a
                 href={certs[lightboxIndex].downloadLink}
                 download={`${certs[lightboxIndex].title.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`}
-                className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
+                className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white !text-white rounded hover:bg-green-700 transition-colors"
               >
                 <FileText size={18} /> Download PDF
               </a>
