@@ -1,14 +1,17 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'export',
-  trailingSlash: true,
-  skipTrailingSlashRedirect: true,
+  // Only use export settings for production builds
+  ...(process.env.NODE_ENV === 'production' && {
+    output: 'export',
+    trailingSlash: true,
+    skipTrailingSlashRedirect: true,
+    basePath: '/Gray-Tech',
+    assetPrefix: '/Gray-Tech/',
+  }),
   images: {
     unoptimized: true
   },
-  basePath: '/Gray-Tech',
-  assetPrefix: '/Gray-Tech/',
 };
 
 export default nextConfig;
