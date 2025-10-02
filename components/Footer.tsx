@@ -19,7 +19,8 @@ export default function Footer() {
               © {currentYear} GrayTech Inc
             </p>
             <p className="text-sm text-muted">
-              Philadelphia, PA
+              Philadelphia, PA /
+              Orlando, FL
             </p>
           </div>
           
