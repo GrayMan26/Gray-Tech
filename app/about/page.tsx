@@ -15,6 +15,9 @@ export const metadata: Metadata = {
 };
 
 export default function About() {
+  // Get the correct base path for assets
+  const basePath = process.env.NODE_ENV === 'production' ? '/Gray-Tech' : '';
+  
   const values = [
     {
       title: "Simplicity",
@@ -45,7 +48,7 @@ export default function About() {
               <div className="flex justify-center">
                 <div className="relative w-60 h-75 rounded-2xl overflow-hidden border-2 border-accent/20 shadow-lg">
                   <img
-                    src="/images/profile-photo.png"
+                    src={`${basePath}/images/profile-photo.png`}
                     alt="Professional headshot"
                     className="w-full h-full object-cover"
                   />
