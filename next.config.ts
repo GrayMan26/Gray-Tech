@@ -1,14 +1,13 @@
 import type { NextConfig } from "next";
 
-const isProduction = process.env.NODE_ENV === 'production';
-const isGitHubPages = process.env.GITHUB_ACTIONS === 'true';
+const isDev = process.env.NODE_ENV === 'development';
 
 const nextConfig: NextConfig = {
-  // GitHub Pages deployment settings
-  ...(isProduction && isGitHubPages && {
-    output: 'export',
-    trailingSlash: true,
-    skipTrailingSlashRedirect: true,
+  output: 'export',
+  trailingSlash: true,
+  skipTrailingSlashRedirect: true,
+  // Only apply basePath in production (for GitHub Pages)
+  ...(isDev ? {} : {
     basePath: '/Gray-Tech',
     assetPrefix: '/Gray-Tech/',
   }),
