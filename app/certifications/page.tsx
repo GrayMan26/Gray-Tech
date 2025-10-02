@@ -56,27 +56,30 @@ export default function Certifications() {
     }
   };
 
+  // Get the correct base path for assets
+  const basePath = process.env.NODE_ENV === 'production' ? '/Gray-Tech' : '';
+  
   const certs = [
     {
       title: "Google Cloud Certification: Cloud Engineer",
       date: "June 12, 2025",
-      image: "/certifications/images/google-cloud-certification-cloud-engineer-cert.png",
+      image: `${basePath}/certifications/images/google-cloud-certification-cloud-engineer-cert.png`,
       viewLink: "https://coursera.org/verify/professional-cert/DWYPO88GZSTF",
-      downloadLink: "/files/Google%20Cloud%20Certification%20Cloud%20Engineer%20Cert.pdf",
+      downloadLink: `${basePath}/files/Google%20Cloud%20Certification%20Cloud%20Engineer%20Cert.pdf`,
     },
     {
       title: "Google Cloud Digital Leader Training",
       date: "Dec 15, 2023",
-      image: "/certifications/images/google-cloud-digital-leader-cert.png",
+      image: `${basePath}/certifications/images/google-cloud-digital-leader-cert.png`,
       viewLink: "https://www.coursera.org/professional-certificates/google-cloud-digital-leader-training",
-      downloadLink: "/files/Google%20Cloud%20Digital%20Leader%20Cert.pdf",
+      downloadLink: `${basePath}/files/Google%20Cloud%20Digital%20Leader%20Cert.pdf`,
     },
     {
       title: "Google IT Support Professional Certificate",
       date: "Aug 10, 2023",
-      image: "/certifications/images/google-it-support-cert.png",
+      image: `${basePath}/certifications/images/google-it-support-cert.png`,
       viewLink: "https://www.coursera.org/professional-certificates/google-it-support",
-      downloadLink: "/files/Google%20It%20Support%20Cert.pdf",
+      downloadLink: `${basePath}/files/Google%20It%20Support%20Cert.pdf`,
     },
   ];
 
@@ -206,6 +209,9 @@ export default function Certifications() {
 function CertCard({ cert, onImageClick }: { cert: { title: string; date: string; image: string; viewLink: string; downloadLink: string }, onImageClick: () => void }) {
   const [imgSrc, setImgSrc] = useState(cert.image);
   const [pdfAvailable, setPdfAvailable] = useState(true);
+  
+  // Get the correct base path for assets
+  const basePath = process.env.NODE_ENV === 'production' ? '/Gray-Tech' : '';
 
   // For now, assume PDFs are available since they exist in /public/files/
   // The HEAD request approach was causing 404s due to Next.js routing
@@ -227,7 +233,7 @@ function CertCard({ cert, onImageClick }: { cert: { title: string; date: string;
           src={imgSrc}
           alt={`${cert.title} Certificate`}
           className="w-full h-auto rounded shadow hover:opacity-90 transition-opacity"
-           onError={() => setImgSrc("/certifications/images/fallback-cert.png")}
+           onError={() => setImgSrc(`${basePath}/certifications/images/fallback-cert.png`)}
         />
       </div>
 
