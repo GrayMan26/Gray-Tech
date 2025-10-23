@@ -7,10 +7,7 @@ const nextConfig: NextConfig = {
   trailingSlash: true,
   skipTrailingSlashRedirect: true,
   // Only apply basePath in production (for GitHub Pages)
-  ...(isDev ? {} : {
-    basePath: '/Gray-Tech',
-    assetPrefix: '/Gray-Tech/',
-  }),
+  ...(isDev ? {} : {}),
   images: {
     unoptimized: true
   },
