@@ -1,16 +1,13 @@
 import type { NextConfig } from "next";
 
-const isDev = process.env.NODE_ENV === 'development';
-
 const nextConfig: NextConfig = {
-  output: 'export',
-  trailingSlash: true,
+  output: "export",           // ✅ static export mode
+  trailingSlash: true,        // ✅ ensures all routes end with /
   skipTrailingSlashRedirect: true,
-  // Only apply basePath in production (for GitHub Pages)
-  ...(isDev ? {} : {}),
   images: {
-    unoptimized: true
+    unoptimized: true,        // ✅ required for static export (no image optimization server)
   },
+  // ✅ No basePath or assetPrefix — Cloudflare serves from root
 };
 
 export default nextConfig;
