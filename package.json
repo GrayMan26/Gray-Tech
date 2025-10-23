@@ -2,13 +2,13 @@
   "name": "gray-tech",
   "version": "0.1.0",
   "private": true,
-  "scripts": {
-    "dev": "next dev --turbopack",
+ "scripts": {
+    "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "eslint",
-    "export": "next build"
-  },
+    "export": "next export",
+    "start": "npx serve out"
+  }
+}
   "dependencies": {
     "clsx": "^2.1.1",
     "framer-motion": "^12.23.22",
