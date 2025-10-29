@@ -16,7 +16,9 @@ export const metadata: Metadata = {
 
 export default function About() {
   // Get the correct base path for assets
-  const basePath = process.env.NODE_ENV === 'production' ? '/Gray-Tech' : '';
+  // For Cloudflare Pages, use empty basePath (serves from root)
+  // For GitHub Pages with subpath, use '/Gray-Tech'
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
   
   const values = [
     {
