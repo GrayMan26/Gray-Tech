@@ -91,10 +91,13 @@ export default function Home() {
               </div>
             </div>
 
-            <h1 className="text-4xl md:text-6xl font-bold text-foreground leading-tight">
+            <h1 className="text-5xl md:text-7xl font-bold text-accent mb-2">
+              GrayTech Inc
+            </h1>
+            <h2 className="text-4xl md:text-6xl font-bold text-foreground leading-tight">
               Friendly, local tech help—
               <span className="text-accent">done right</span>.
-            </h1>
+            </h2>
             <p className="text-xl text-muted max-w-3xl mx-auto leading-relaxed">
               From printer setup to small-office servers, GrayTech Inc keeps your tech simple and reliable. 
               <span className="block mt-2 text-lg">📍 Proudly serving Philadelphia</span>
