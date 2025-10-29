@@ -100,7 +100,7 @@ export default function Home() {
             </h2>
             <p className="text-xl text-muted max-w-3xl mx-auto leading-relaxed">
               From printer setup to small-office servers, GrayTech Inc keeps your tech simple and reliable. 
-              <span className="block mt-2 text-lg">📍 Proudly serving Philadelphia</span>
+              <span className="block mt-2 text-lg">📍 Proudly serving Philadelphia and the tri-state area</span>
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
