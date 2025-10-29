@@ -72,7 +72,7 @@ export default function About() {
                       <span className="font-semibold text-accent">Our Story</span>
                     </div>
                     <p className="text-lg leading-relaxed text-gray-700">
-                      GrayTech Inc is a small, Philadelphia-based tech services company built on a simple idea: make technology feel effortless. I hold several certifications from Google and plan to pursue additional credentials to further expand my expertise.
+                      GrayTech Inc is a small, Philadelphia area-based tech services company built on a simple idea: make technology feel effortless, and understandable.
                     </p>
                   </div>
                   
