@@ -1,0 +1,197 @@
+@import "tailwindcss";
+
+/* Dark Theme (Default) */
+:root {
+  --background: #121212;
+  --foreground: #E5E7EB;
+  --gray-light: #2A2A2A;
+  --accent: #4F46E5;
+  --card-bg: #1e1e1e;
+  --border: #2a2a2a;
+  --muted: #6b7280;
+}
+
+/* Light Theme */
+[data-theme="light"] {
+  --background: #ffffff;
+  --foreground: #000000;
+  --gray-light: #f3f4f6;
+  --accent: #3b82f6;
+  --card-bg: #f9fafb;
+  --border: #e5e7eb;
+  --muted: #1f2937;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-gray-light: var(--gray-light);
+  --color-accent: var(--accent);
+  --color-card-bg: var(--card-bg);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+  --font-sans: ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  line-height: 1.6;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Theme-aware utility overrides */
+.bg-white { 
+  background-color: var(--card-bg) !important; 
+  transition: background-color 0.3s ease;
+}
+.border-gray-200 { 
+  border-color: var(--border) !important; 
+  transition: border-color 0.3s ease;
+}
+.text-gray-700 { 
+  color: var(--foreground) !important; 
+  transition: color 0.3s ease;
+}
+.text-gray-600 { 
+  color: var(--muted) !important; 
+  transition: color 0.3s ease;
+}
+
+/* Links */
+/* Default link color, but exclude button-styled links */
+a:not(.btn) { color: var(--accent); }
+a:not(.btn):hover { color: color-mix(in oklab, var(--accent), white 15%); }
+
+/* Ensure links contrast on accent backgrounds */
+.bg-accent a { color: #ffffff !important; }
+.bg-accent a:hover { color: #ffffff !important; opacity: 0.9; }
+
+/* Light theme specific improvements */
+[data-theme="light"] .text-gray-300 {
+  color: #1f2937 !important; /* Much darker gray for better contrast */
+}
+
+[data-theme="light"] .text-gray-400 {
+  color: #111827 !important; /* Very dark for excellent readability */
+}
+
+/* Ensure sufficient contrast for muted text in light theme */
+[data-theme="light"] .text-muted {
+  color: #1f2937 !important;
+}
+
+/* Light theme overrides for colored stat boxes */
+[data-theme="light"] .bg-green-100 {
+  background-color: #dcfce7 !important;
+}
+
+[data-theme="light"] .bg-blue-100 {
+  background-color: #dbeafe !important;
+}
+
+/* Service Dropdown Enhancements */
+.service-dropdown {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* Light mode frosted glass */
+[data-theme="light"] .service-dropdown {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode frosted glass */
+[data-theme="dark"] .service-dropdown {
+  background: rgba(17, 17, 17, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* Improved button hover effects */
+.learn-more-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.learn-more-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(var(--color-accent), 0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.learn-more-btn:hover::before {
+  left: 100%;
+}
+
+/* Enhanced focus states */
+.learn-more-btn:focus {
+  box-shadow: 0 0 0 3px rgba(var(--color-accent), 0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .service-dropdown .p-8 {
+    padding: 1.5rem;
+  }
+  
+  .service-dropdown .pr-16 {
+    padding-right: 3rem;
+  }
+  
+  .service-dropdown .grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Animation classes for smooth transitions */
+.dropdown-enter {
+  opacity: 0;
+  transform: translateY(-10px) scale(0.95);
+}
+
+.dropdown-enter-active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dropdown-exit {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.dropdown-exit-active {
+  opacity: 0;
+  transform: translateY(-10px) scale(0.95);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Icon morphing animation */
+.icon-morph {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Close button enhancement */
+.close-btn {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+[data-theme="light"] .close-btn {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] .close-btn {
+  background: rgba(31, 41, 55, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
