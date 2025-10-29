@@ -96,7 +96,7 @@ export default function Home() {
               <span className="text-accent">done right</span>.
             </h1>
             <p className="text-xl text-muted max-w-3xl mx-auto leading-relaxed">
-              From printer setup to small-office servers, GrayTech Help keeps your tech simple and reliable. 
+              From printer setup to small-office servers, GrayTech Inc keeps your tech simple and reliable. 
               <span className="block mt-2 text-lg">📍 Proudly serving Philadelphia</span>
             </p>
             
