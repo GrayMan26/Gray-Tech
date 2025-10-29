@@ -10,6 +10,7 @@ import {
   Server, 
   Wifi, 
   Wrench,
+  HardDrive,
   CheckCircle,
   ChevronDown,
   X
@@ -155,6 +156,29 @@ export default function Services() {
       },
       icon: <Wrench className="h-8 w-8" />,
       color: "bg-red-100 text-red-600"
+    },
+    {
+      id: "cd-migration",
+      title: "CD Migration",
+      description: "Rip CDs onto a portable drive, then install to computers.",
+      detailedDescription: "Professional CD migration service that converts your CD collection into digital format stored on a portable drive, then installs the content onto your computer. Perfect for preserving music, software, photos, or data from older CD collections.",
+      features: [
+        "CD ripping and digitization",
+        "Digital file organization",
+        "Portable drive preparation",
+        "Content installation to computer",
+        "Metadata and tagging",
+        "Quality verification",
+        "Multiple format support",
+        "Backup recommendations"
+      ],
+      pricing: {
+        basic: "$60-90",
+        advanced: "$90-150",
+        details: "Basic per-CD rip and installation vs Bulk migration with organization and backup"
+      },
+      icon: <HardDrive className="h-8 w-8" />,
+      color: "bg-cyan-100 text-cyan-600"
     }
   ];
 
