@@ -114,7 +114,7 @@ export default function Header() {
                 aria-expanded={isDropdownOpen}
                 aria-haspopup="true"
               >
-                GrayTech
+                GrayTech Inc
                 <ChevronDown 
                   className={`h-4 w-4 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} 
                 />
