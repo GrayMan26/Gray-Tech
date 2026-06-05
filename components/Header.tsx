@@ -93,6 +93,7 @@ export default function Header() {
     { name: 'Services', href: '/services' },
     { name: 'Certifications', href: '/certifications' },
     { name: 'About', href: '/about' },
+    { name: 'Tools', href: '/tools' },
     { name: 'Contact', href: '/contact' },
   ]
 

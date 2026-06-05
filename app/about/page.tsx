@@ -1,5 +1,6 @@
 import Container from "../../components/Container";
 import Button from "../../components/Button";
+import VideoSection from "../../components/VideoSection";
 import { Metadata } from "next";
 import { 
   Heart, 
@@ -127,6 +128,20 @@ export default function About() {
                   </div>
                 ))}
               </div>
+            </div>
+
+            {/* Video Section */}
+            <div className="max-w-4xl mx-auto">
+              <div className="text-center space-y-6 mb-8">
+                <h2 className="text-3xl font-bold text-foreground">
+                  How we started
+                </h2>
+                <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                  Get to know us better through this short introduction video
+                </p>
+              </div>
+              
+              <VideoSection basePath={basePath} />
             </div>
 
             <div className="text-center space-y-6 bg-gradient-to-br from-accent/5 to-accent/10 rounded-2xl p-8 border border-accent/20">
