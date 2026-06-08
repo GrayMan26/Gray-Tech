@@ -191,9 +191,21 @@ function ImportDialog({ onClose, onImported }: { onClose: () => void; onImported
     const fd = new FormData(); fd.append('file', f)
     try {
       const r = await fetch(`${TRANSPORT_API}/import/parse`, { method: 'POST', body: fd })
-      if (!r.ok) throw new Error('Parse failed')
-      setPreview(await r.json())
-    } catch { alert('Could not parse file. Make sure it is an HTML reservations report.') }
+      if (!r.ok) {
+        let detail = `Server error ${r.status}`
+        try { const j = await r.json(); detail = j.detail || detail } catch { /* ignore */ }
+        throw new Error(detail)
+      }
+      const data = await r.json()
+      if (!Array.isArray(data) || data.length === 0) {
+        alert('No trips found in the file. Make sure it is an HTML reservations report.')
+        return
+      }
+      setPreview(data)
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err)
+      alert(`Could not parse file: ${msg}`)
+    }
     finally { setLoading(false) }
   }
 
