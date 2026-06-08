@@ -5,13 +5,13 @@ import Footer from "../components/Footer";
 import ClientWrapper from "../components/ClientWrapper";
 
 export const metadata: Metadata = {
-  title: "GrayTech Help | Friendly, local tech help—done right.",
-  description: "Philadelphia-based tech services company. From printer setup to small-office servers, GrayTech Help keeps your tech simple and reliable.",
+  title: "GrayTech Inc | Friendly, local tech help—done right.",
+  description: "Philadelphia-based tech services company. From printer setup to small-office servers, GrayTech Inc keeps your tech simple and reliable.",
   keywords: "tech support, Philadelphia, computer repair, printer setup, PC building, server maintenance",
-  authors: [{ name: "GrayTech Help" }],
+  authors: [{ name: "GrayTech Inc" }],
   openGraph: {
-    title: "GrayTech Help | Friendly, local tech help—done right.",
-    description: "Philadelphia-based tech services company. From printer setup to small-office servers, GrayTech Help keeps your tech simple and reliable.",
+    title: "GrayTech Inc | Friendly, local tech help—done right.",
+    description: "Philadelphia-based tech services company. From printer setup to small-office servers, GrayTech Inc keeps your tech simple and reliable.",
     type: "website",
     locale: "en_US",
   },

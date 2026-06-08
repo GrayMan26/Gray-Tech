@@ -1,6 +1,6 @@
-# GrayTech Help
+# GrayTech Inc
 
-A minimal, fast, and mobile-first marketing website for GrayTech Help - a Philadelphia-based tech services company.
+A minimal, fast, and mobile-first marketing website for GrayTech Inc - a Philadelphia-based tech services company.
 
 ## Features
 

@@ -11,13 +11,15 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "About | GrayTech Help",
-  description: "Learn about GrayTech Help - a Philadelphia-based tech services company built on simplicity, trust, and care.",
+  title: "About | GrayTech Inc",
+  description: "Learn about GrayTech Inc - a Philadelphia-based tech services company built on simplicity, trust, and care.",
 };
 
 export default function About() {
   // Get the correct base path for assets
-  const basePath = process.env.NODE_ENV === 'production' ? '/Gray-Tech' : '';
+  // For Cloudflare Pages, use empty basePath (serves from root)
+  // For GitHub Pages with subpath, use '/Gray-Tech'
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
   
   const values = [
     {
@@ -73,7 +75,7 @@ export default function About() {
                       <span className="font-semibold text-accent">Our Story</span>
                     </div>
                     <p className="text-lg leading-relaxed text-gray-700">
-                      GrayTech Help is a small, Philadelphia-based tech services company built on a simple idea: make technology feel effortless. I hold several certifications from Google and plan to pursue additional credentials to further expand my expertise.
+                      GrayTech Inc is a small, Philadelphia area-based tech services company built on a simple idea: make technology feel effortless, and understandable.
                     </p>
                   </div>
                   

@@ -1,18 +1,16 @@
 import type { NextConfig } from "next";
 
-const isDev = process.env.NODE_ENV === 'development';
+// GitHub Pages requires basePath when repo name is not username.github.io format
+// Cloudflare Pages serves from root, so basePath should be empty
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
 const nextConfig: NextConfig = {
-  output: 'export',
-  trailingSlash: true,
+  output: "export",           // ✅ static export mode
+  basePath: basePath,         // ✅ conditional basePath for GitHub Pages vs Cloudflare
+  trailingSlash: true,        // ✅ ensures all routes end with /
   skipTrailingSlashRedirect: true,
-  // Only apply basePath in production (for GitHub Pages)
-  ...(isDev ? {} : {
-    basePath: '/Gray-Tech',
-    assetPrefix: '/Gray-Tech/',
-  }),
   images: {
-    unoptimized: true
+    unoptimized: true,        // ✅ required for static export (no image optimization server)
   },
 };
 

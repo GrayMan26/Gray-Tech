@@ -57,7 +57,9 @@ export default function Certifications() {
   };
 
   // Get the correct base path for assets
-  const basePath = process.env.NODE_ENV === 'production' ? '/Gray-Tech' : '';
+  // For Cloudflare Pages, use empty basePath (serves from root)
+  // For GitHub Pages with subpath, use '/Gray-Tech'
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
   
   const certs = [
     {
@@ -211,7 +213,9 @@ function CertCard({ cert, onImageClick }: { cert: { title: string; date: string;
   const [pdfAvailable, setPdfAvailable] = useState(true);
   
   // Get the correct base path for assets
-  const basePath = process.env.NODE_ENV === 'production' ? '/Gray-Tech' : '';
+  // For Cloudflare Pages, use empty basePath (serves from root)
+  // For GitHub Pages with subpath, use '/Gray-Tech'
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
   // For now, assume PDFs are available since they exist in /public/files/
   // The HEAD request approach was causing 404s due to Next.js routing

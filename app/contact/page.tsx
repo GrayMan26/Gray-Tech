@@ -15,8 +15,8 @@ import {
 
 // Note: This metadata export won't work in client components, but we'll handle SEO in layout
 // export const metadata: Metadata = {
-//   title: "Contact | GrayTech Help",
-//   description: "Get in touch with GrayTech Help for tech support in Philadelphia. Call (610) 241-6947 or email graytechhelp@gmail.com.",
+//   title: "Contact | GrayTech Inc",
+//   description: "Get in touch with GrayTech Inc for tech support in Philadelphia. Call (610) 241-6947 or email graytechhelp@gmail.com.",
 // };
 
 export default function Contact() {
