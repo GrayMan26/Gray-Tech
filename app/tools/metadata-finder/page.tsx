@@ -54,6 +54,10 @@ export default function MetadataFinderPage() {
     fd.append('file', files[idx].file)
     try {
       const r = await fetch(`${METADATA_API}/identify`, { method: 'POST', body: fd })
+      if (!r.ok) {
+        setFiles(f => f.map((e, i) => i === idx ? { ...e, status: 'error' } : e))
+        return
+      }
       const d = await r.json()
       if (d.found) {
         setFiles(f => f.map((e, i) => i === idx ? {
