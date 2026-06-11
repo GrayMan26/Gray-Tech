@@ -21,6 +21,25 @@ function parseHHMM(s: string): number {
   return (h || 0) * 60 + (m || 0)
 }
 
+function splitAddress(addr: string): [string, string, string] {
+  try {
+    const lastComma = addr.lastIndexOf(', ')
+    if (lastComma !== -1) {
+      const city = addr.slice(0, lastComma).trim()
+      const parts = addr.slice(lastComma + 2).trim().split(' ')
+      if (parts.length >= 2 && parts[0].length === 2 && /^[A-Za-z]+$/.test(parts[0])) {
+        return [city, parts[0].toUpperCase(), parts.slice(1).join(' ')]
+      }
+    }
+  } catch {}
+  return [addr, '', '']
+}
+
+function combineAddress(city: string, state: string, zip: string): string {
+  const stateZip = `${state} ${zip}`.trim()
+  return stateZip ? `${city}, ${stateZip}` : city
+}
+
 export default function TripDialog({ trip, onSave, onClose }: Props) {
   const isEdit = !!trip
 
@@ -38,12 +57,14 @@ export default function TripDialog({ trip, onSave, onClose }: Props) {
   const [tab,       setTab]       = useState<'details' | 'route'>('details')
 
   // Route fields
-  const [useHomeBase, setUseHomeBase] = useState(true)
-  const [stops,       setStops]       = useState<Stop[]>([{ stop_type: 'WT', address: '' }])
-  const [routeMsg,    setRouteMsg]    = useState('')
-  const [routeErr,    setRouteErr]    = useState(false)
-  const [failedAddrs, setFailedAddrs] = useState<string[]>([])
-  const [calculating, setCalculating] = useState(false)
+  const [useHomeBase,  setUseHomeBase]  = useState(true)
+  const [stops,        setStops]        = useState<Stop[]>([{ stop_type: 'WT', address: '' }])
+  const [routeMsg,     setRouteMsg]     = useState('')
+  const [routeErr,     setRouteErr]     = useState(false)
+  const [failedAddrs,  setFailedAddrs]  = useState<string[]>([])
+  const [calculating,  setCalculating]  = useState(false)
+  const [suggestions,  setSuggestions]  = useState<Record<string, string[]>>({})
+  const [loadingSugg,  setLoadingSugg]  = useState<Record<string, boolean>>({})
 
   // Load existing stops when editing
   useEffect(() => {
@@ -73,7 +94,8 @@ export default function TripDialog({ trip, onSave, onClose }: Props) {
     const middle = stops.map(s => s.address).filter(Boolean)
     if (!middle.length) { setRouteMsg('Add at least one stop address.'); setRouteErr(true); return }
     const addresses = useHomeBase ? [HOME_BASE, ...middle, HOME_BASE] : middle
-    setCalculating(true); setRouteMsg('Calculating…'); setRouteErr(false); setFailedAddrs([])
+    setCalculating(true); setRouteMsg('Calculating…'); setRouteErr(false)
+    setFailedAddrs([]); setSuggestions({}); setLoadingSugg({})
     try {
       const r = await fetch(`${TRANSPORT_API}/calculate-route`, {
         method: 'POST',
@@ -86,13 +108,36 @@ export default function TripDialog({ trip, onSave, onClose }: Props) {
       setDriveTime(fmtHHMM(data.total_minutes))
       setRouteMsg(`${data.total_miles} mi  •  ${fmtHHMM(data.total_minutes)}`)
       setRouteErr(false)
-      setFailedAddrs(data.failed ?? [])
+      const failed: string[] = data.failed ?? []
+      setFailedAddrs(failed)
+      // Auto-fetch suggestions for any middle stop that failed (skip home base)
+      const toSuggest = failed.filter(a => a !== HOME_BASE)
+      toSuggest.forEach(addr => {
+        setLoadingSugg(prev => ({ ...prev, [addr]: true }))
+        fetch(`${TRANSPORT_API}/geocode/suggest?text=${encodeURIComponent(addr)}`)
+          .then(r => r.json())
+          .then(d => {
+            setSuggestions(prev => ({ ...prev, [addr]: d.suggestions ?? [] }))
+            setLoadingSugg(prev => ({ ...prev, [addr]: false }))
+          })
+          .catch(() => setLoadingSugg(prev => ({ ...prev, [addr]: false })))
+      })
     } catch (e: unknown) {
       setRouteMsg(e instanceof Error ? e.message : 'Error')
       setRouteErr(true)
     } finally {
       setCalculating(false)
     }
+  }
+
+  function replaceAddress(failedAddr: string, suggestion: string) {
+    setStops(prev => prev.map(s =>
+      s.address.trim() === failedAddr.trim() ? { ...s, address: suggestion } : s
+    ))
+    setFailedAddrs(prev => prev.filter(a => a !== failedAddr))
+    setSuggestions(prev => { const n = { ...prev }; delete n[failedAddr]; return n })
+    setRouteMsg('Address updated — recalculate to confirm route.')
+    setRouteErr(false)
   }
 
   async function handleSave() {
@@ -238,26 +283,42 @@ export default function TripDialog({ trip, onSave, onClose }: Props) {
 
               {/* Stop rows */}
               <div className="space-y-2">
-                {stops.map((s, i) => (
-                  <div key={i} className="flex gap-2 items-center">
-                    <select
-                      value={s.stop_type}
-                      onChange={e => updateStop(i, 'stop_type', e.target.value)}
-                      className="w-16 bg-gray-light border border-border rounded px-1 py-1.5 text-xs text-foreground focus:outline-none focus:border-accent"
-                    >
-                      {['PU', 'WT', 'ST', 'DO'].map(t => <option key={t}>{t}</option>)}
-                    </select>
-                    <input
-                      value={s.address}
-                      onChange={e => updateStop(i, 'address', e.target.value)}
-                      placeholder="Full address…"
-                      className="flex-1 bg-gray-light border border-border rounded px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-accent"
-                    />
-                    <button onClick={() => removeStop(i)} className="text-red-400 hover:text-red-300 shrink-0">
-                      <Trash2 className="h-4 w-4" />
-                    </button>
-                  </div>
-                ))}
+                {stops.map((s, i) => {
+                  const [city, state, zip] = splitAddress(s.address)
+                  return (
+                    <div key={i} className="flex gap-2 items-center">
+                      <select
+                        value={s.stop_type}
+                        onChange={e => updateStop(i, 'stop_type', e.target.value)}
+                        className="w-16 bg-gray-light border border-border rounded px-1 py-1.5 text-xs text-foreground focus:outline-none focus:border-accent"
+                      >
+                        {['PU', 'WT', 'ST', 'DO'].map(t => <option key={t}>{t}</option>)}
+                      </select>
+                      <input
+                        value={city}
+                        onChange={e => updateStop(i, 'address', combineAddress(e.target.value, state, zip))}
+                        placeholder="City…"
+                        className="flex-1 bg-gray-light border border-border rounded px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-accent"
+                      />
+                      <input
+                        value={state}
+                        maxLength={2}
+                        onChange={e => updateStop(i, 'address', combineAddress(city, e.target.value.toUpperCase(), zip))}
+                        placeholder="ST"
+                        className="w-14 bg-gray-light border border-border rounded px-2 py-1.5 text-sm text-center text-foreground focus:outline-none focus:border-accent"
+                      />
+                      <input
+                        value={zip}
+                        onChange={e => updateStop(i, 'address', combineAddress(city, state, e.target.value))}
+                        placeholder="ZIP"
+                        className="w-24 bg-gray-light border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none focus:border-accent"
+                      />
+                      <button onClick={() => removeStop(i)} className="text-red-400 hover:text-red-300 shrink-0">
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </div>
+                  )
+                })}
               </div>
 
               {useHomeBase && (
@@ -288,9 +349,30 @@ export default function TripDialog({ trip, onSave, onClose }: Props) {
                 </p>
               )}
               {failedAddrs.length > 0 && (
-                <div className="text-xs text-red-400 space-y-0.5">
-                  <p className="font-medium">Could not geocode:</p>
-                  {failedAddrs.map(a => <p key={a} className="pl-3">• {a}</p>)}
+                <div className="text-xs space-y-2">
+                  <p className="font-medium text-red-400">Could not geocode — pick a suggestion to fix:</p>
+                  {failedAddrs.map(addr => (
+                    <div key={addr} className="pl-3 space-y-1">
+                      <p className="text-red-400">• {addr}</p>
+                      {loadingSugg[addr] && (
+                        <p className="text-muted pl-2 flex items-center gap-1">
+                          <Loader2 className="h-3 w-3 animate-spin" /> Finding suggestions…
+                        </p>
+                      )}
+                      {!loadingSugg[addr] && suggestions[addr]?.map(sug => (
+                        <button
+                          key={sug}
+                          onClick={() => replaceAddress(addr, sug)}
+                          className="block pl-2 text-left text-accent hover:text-accent/80 hover:underline"
+                        >
+                          → {sug}
+                        </button>
+                      ))}
+                      {!loadingSugg[addr] && suggestions[addr] !== undefined && suggestions[addr].length === 0 && (
+                        <p className="text-muted pl-2">No suggestions found — try editing the city or zip.</p>
+                      )}
+                    </div>
+                  ))}
                 </div>
               )}
             </div>
