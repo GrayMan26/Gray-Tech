@@ -64,7 +64,6 @@ export default function TripDialog({ trip, onSave, onClose }: Props) {
   const [failedAddrs,  setFailedAddrs]  = useState<string[]>([])
   const [calculating,  setCalculating]  = useState(false)
   const [suggestions,  setSuggestions]  = useState<Record<string, string[]>>({})
-  const [loadingSugg,  setLoadingSugg]  = useState<Record<string, boolean>>({})
 
   // Load existing stops when editing
   useEffect(() => {
@@ -74,8 +73,7 @@ export default function TripDialog({ trip, onSave, onClose }: Props) {
       .then((raw: Stop[]) => {
         const middle = raw.filter(s => s.address.trim().toLowerCase() !== HOME_BASE.toLowerCase())
         setStops(middle.length ? middle : [{ stop_type: 'WT', address: '' }])
-        const hasHome = raw.some(s => s.address.trim().toLowerCase() === HOME_BASE.toLowerCase())
-        setUseHomeBase(raw.length === 0 || hasHome)
+        setUseHomeBase(true)
       })
       .catch(() => {})
   }, [trip])
@@ -93,14 +91,13 @@ export default function TripDialog({ trip, onSave, onClose }: Props) {
   async function calcRoute() {
     const middle = stops.map(s => s.address).filter(Boolean)
     if (!middle.length) { setRouteMsg('Add at least one stop address.'); setRouteErr(true); return }
-    const addresses = useHomeBase ? [HOME_BASE, ...middle, HOME_BASE] : middle
     setCalculating(true); setRouteMsg('Calculating…'); setRouteErr(false)
-    setFailedAddrs([]); setSuggestions({}); setLoadingSugg({})
+    setFailedAddrs([]); setSuggestions({})
     try {
       const r = await fetch(`${TRANSPORT_API}/calculate-route`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ addresses }),
+        body: JSON.stringify({ addresses: middle, use_home_base: useHomeBase }),
       })
       const data = await r.json()
       if (!r.ok) throw new Error(data.detail || 'Route error')
@@ -108,20 +105,9 @@ export default function TripDialog({ trip, onSave, onClose }: Props) {
       setDriveTime(fmtHHMM(data.total_minutes))
       setRouteMsg(`${data.total_miles} mi  •  ${fmtHHMM(data.total_minutes)}`)
       setRouteErr(false)
-      const failed: string[] = data.failed ?? []
+      const failed: string[] = (data.failed ?? []).filter((a: string) => a !== HOME_BASE)
       setFailedAddrs(failed)
-      // Auto-fetch suggestions for any middle stop that failed (skip home base)
-      const toSuggest = failed.filter(a => a !== HOME_BASE)
-      toSuggest.forEach(addr => {
-        setLoadingSugg(prev => ({ ...prev, [addr]: true }))
-        fetch(`${TRANSPORT_API}/geocode/suggest?text=${encodeURIComponent(addr)}`)
-          .then(r => r.json())
-          .then(d => {
-            setSuggestions(prev => ({ ...prev, [addr]: d.suggestions ?? [] }))
-            setLoadingSugg(prev => ({ ...prev, [addr]: false }))
-          })
-          .catch(() => setLoadingSugg(prev => ({ ...prev, [addr]: false })))
-      })
+      setSuggestions(data.suggestions ?? {})
     } catch (e: unknown) {
       setRouteMsg(e instanceof Error ? e.message : 'Error')
       setRouteErr(true)
@@ -354,12 +340,7 @@ export default function TripDialog({ trip, onSave, onClose }: Props) {
                   {failedAddrs.map(addr => (
                     <div key={addr} className="pl-3 space-y-1">
                       <p className="text-red-400">• {addr}</p>
-                      {loadingSugg[addr] && (
-                        <p className="text-muted pl-2 flex items-center gap-1">
-                          <Loader2 className="h-3 w-3 animate-spin" /> Finding suggestions…
-                        </p>
-                      )}
-                      {!loadingSugg[addr] && suggestions[addr]?.map(sug => (
+                      {suggestions[addr]?.map(sug => (
                         <button
                           key={sug}
                           onClick={() => replaceAddress(addr, sug)}
@@ -368,7 +349,7 @@ export default function TripDialog({ trip, onSave, onClose }: Props) {
                           → {sug}
                         </button>
                       ))}
-                      {!loadingSugg[addr] && suggestions[addr] !== undefined && suggestions[addr].length === 0 && (
+                      {suggestions[addr] !== undefined && suggestions[addr].length === 0 && (
                         <p className="text-muted pl-2">No suggestions found — try editing the city or zip.</p>
                       )}
                     </div>
