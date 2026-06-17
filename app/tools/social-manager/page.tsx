@@ -64,7 +64,14 @@ function ApprovalCard({
   onReject: (id: number) => void
   result?: PostResult
 }) {
+  const [posting, setPosting] = useState(false)
   const color = platformColor(post.platform)
+
+  function handleApprove() {
+    if (posting) return
+    setPosting(true)
+    onApprove(post.post_id)
+  }
 
   return (
     <div className="mt-3 rounded-xl border border-border overflow-hidden max-w-md">
@@ -97,10 +104,14 @@ function ApprovalCard({
         ) : (
           <div className="flex gap-2">
             <button
-              onClick={() => onApprove(post.post_id)}
-              className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-green-600 text-white text-sm hover:bg-green-500 transition-colors"
+              onClick={handleApprove}
+              disabled={posting}
+              className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-green-600 text-white text-sm hover:bg-green-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <CheckCircle className="h-3.5 w-3.5" /> Approve &amp; Post
+              {posting
+                ? <><Loader2 className="h-3.5 w-3.5 animate-spin" /> Posting…</>
+                : <><CheckCircle className="h-3.5 w-3.5" /> Approve &amp; Post</>
+              }
             </button>
             <button
               onClick={() => onReject(post.post_id)}
