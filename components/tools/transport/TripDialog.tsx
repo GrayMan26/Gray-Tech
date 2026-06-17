@@ -349,8 +349,8 @@ export default function TripDialog({ trip, onSave, onClose }: Props) {
                           → {sug}
                         </button>
                       ))}
-                      {suggestions[addr] !== undefined && suggestions[addr].length === 0 && (
-                        <p className="text-muted pl-2">No suggestions found — try editing the city or zip.</p>
+                      {!suggestions[addr]?.length && (
+                        <p className="text-muted pl-2">No suggestions found — edit the stop above and recalculate.</p>
                       )}
                     </div>
                   ))}
