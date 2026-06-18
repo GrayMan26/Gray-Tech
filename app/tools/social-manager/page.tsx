@@ -11,7 +11,12 @@ interface PostPreview {
   platform: string
   content: string
   image_url: string
+  thumbnail_url?: string
   scheduled_at: string
+}
+
+function isVideoUrl(url: string): boolean {
+  return /\.(mp4|mov|webm)(\?|$)/i.test(url) || url.toLowerCase().includes('/video-files/')
 }
 
 interface Message {
@@ -84,9 +89,11 @@ function ApprovalCard({
         )}
       </div>
 
-      {/* Image preview */}
+      {/* Media preview — video for TikTok clips, image otherwise */}
       {post.image_url && (
-        <img src={post.image_url} alt="Post image" className="w-full max-h-48 object-cover" />
+        isVideoUrl(post.image_url)
+          ? <video src={post.image_url} poster={post.thumbnail_url} className="w-full max-h-48 object-cover" muted controls />
+          : <img src={post.image_url} alt="Post image" className="w-full max-h-48 object-cover" />
       )}
 
       {/* Caption */}
@@ -200,6 +207,7 @@ export default function SocialManagerPage() {
   const [connecting,   setConnecting]   = useState(false)
   const [agentBusy,    setAgentBusy]    = useState(false)
   const [postResults,  setPostResults]  = useState<Record<number, PostResult>>({})
+  const [platformStatus, setPlatformStatus] = useState<Record<string, boolean>>({})
 
   const wsRef        = useRef<WebSocket | null>(null)
   const sessionId    = useRef(Math.random().toString(36).slice(2))
@@ -210,6 +218,14 @@ export default function SocialManagerPage() {
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
+
+  // Fetch platform availability for the header bar
+  useEffect(() => {
+    fetch(`${SOCIAL_MANAGER_API}/status`)
+      .then(r => r.json())
+      .then(d => setPlatformStatus(d.platforms ?? {}))
+      .catch(() => {})
+  }, [])
 
   // ── WebSocket connection ─────────────────────────────────────────────────────
 
@@ -324,11 +340,12 @@ export default function SocialManagerPage() {
           <div className={`w-2 h-2 rounded-full ml-1 ${connected ? 'bg-green-400' : connecting ? 'bg-yellow-400 animate-pulse' : 'bg-red-400'}`} />
         </div>
         <div className="flex items-center gap-2 text-xs text-muted">
-          <span className="flex items-center gap-1"><Instagram className="h-3.5 w-3.5 text-pink-400" /> Active</span>
-          <span className="flex items-center gap-1 opacity-40"><Facebook className="h-3.5 w-3.5" /> Soon</span>
-          <span className="flex items-center gap-1 opacity-40"><Twitter className="h-3.5 w-3.5" /> Soon</span>
-          <span className="flex items-center gap-1 opacity-40"><Linkedin className="h-3.5 w-3.5" /> Soon</span>
-          <span className="flex items-center gap-1 opacity-40"><Music2 className="h-3.5 w-3.5" /> Soon</span>
+          {['instagram', 'facebook', 'twitter', 'linkedin', 'tiktok'].map(p => (
+            <span key={p} className={`flex items-center gap-1 ${platformStatus[p] ? '' : 'opacity-40'}`}>
+              <PlatformIcon platform={p} size={14} />
+              {platformStatus[p] ? 'Active' : 'Soon'}
+            </span>
+          ))}
           {!connected && (
             <button onClick={connect} className="ml-2 flex items-center gap-1 text-accent hover:text-accent/80">
               <RefreshCw className="h-3.5 w-3.5" /> Reconnect
